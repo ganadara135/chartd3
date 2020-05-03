@@ -1,8 +1,13 @@
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
+interface whatInter {
+  x:number;
+  y:number;
+}
 interface IProps {
-    data?: number[];
+    // data?: number[];
+    data?: whatInter[];
 }
 
 /* Component */
@@ -28,15 +33,24 @@ export const MyD3Component = (props: IProps) => {
                 // Enter new D3 elements
                 update.enter()
                     .append('text')
-                    .attr('x', (d, i) => i * 25)
+                    .attr('x', (d, i, n) => i * 60)
                     .attr('y', 40)
                     .style('font-size', 24)
-                    .text((d: number) => d);
+                    .text( function(d,i,n) {
+                        console.log(d)
+                        console.log(d.y)
+                        console.log(i)
+                        console.log(n)
+                        return ('('+d.x+','+d.y+')');
+                    });
+                    // .text((v : whatInter) => v.x);
+                    // .text((d.x : any) => d);
 
                 // Update existing D3 elements
-                update
-                    .attr('x', (d, i) => i * 40)
-                    .text((d: number) => d);
+                // update
+                //     .attr('x', (d, i) => i * 40)
+                //     .text((d : any) => d);
+                    // .text((d: number) => d);
 
                 // Remove old D3 elements
                 update.exit()
@@ -57,7 +71,7 @@ export const MyD3Component = (props: IProps) => {
     return (
         <svg
             className="d3-component"
-            width={400}
+            width={600}
             height={200}
             ref={d3Container}
         />
@@ -69,9 +83,21 @@ function App() {
   return (
     // <div id="chart"> </div>
     <div >
-      <MyD3Component data={[1,2,3,5]}/>
+      {/* <MyD3Component data={[1,2,3,5]}/> */}
+      <MyD3Component 
+        data={[
+          {x:8, y:3},
+          {x:2, y:10},
+          {x:11, y:3},
+          {x:6, y:6},
+          {x:5, y:8},
+          {x:4, y:12},
+          {x:12, y:1},
+          {x:9, y:4},
+          {x:6, y:9},
+          {x:1, y:14}
+        ]} />
     </div>
-
   );
 }
 
